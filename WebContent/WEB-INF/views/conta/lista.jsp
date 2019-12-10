@@ -6,10 +6,27 @@
     
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
-<title>Lista de Contas</title>
+<title>
+	Lista de Contas
+</title>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+<script type="text/javascript">
+
+	function respOk(dadosDaResposta) {
+		// alert("Conta paga com sucesso!");
+		$("#conta_" + id).html("Paga");
+	}	
+
+	function fazPagamento(id) {
+		$.post("pagaConta?id=" + id, respOk);
+	}
+
+</script>
 </head>
+
 <body>
 
 	<table>
@@ -31,16 +48,20 @@
 			<td>${conta.tipo}</td>
 			<td>
 				<c:if test="${conta.paga eq false}">
-				Não Paga
+					Não Paga
 				</c:if>
 				<c:if test="${conta.paga eq true}">
-				Paga
+					Paga
 				</c:if>
 			</td>
 			<td><fmt:formatDate value="${conta.dataPagamento.time}" pattern="dd/MM/yyyy" /></td>
 			<td>
-				<a href="removeConta?id=${conta.id}">Deletar</a>
+				<a href="removeConta?id=${conta.id}">Deletar</a> 
 				<a href="mostraConta?id=${conta.id}">Alterar</a>
+				<c:if test="${conta.paga eq false}">
+					<a href="#" onclick="fazPagamento(${conta.id});">Paga Conta</a>
+				</c:if>
+				
 			</td>
 		</tr>	
 		</c:forEach>

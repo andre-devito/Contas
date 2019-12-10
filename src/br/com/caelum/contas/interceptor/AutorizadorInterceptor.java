@@ -7,20 +7,20 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object controller)
-	throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object controller) throws Exception {
 		
 		String uri = request.getRequestURI();
-		if(uri.endsWith("loginForm") || uri.endsWith("efetuaLogin") || uri.contains("resources")) {
+		if (uri.endsWith("/usuario/form") || uri.endsWith("/usuario/efetuaLogin") || uri.contains("resources")) {
 			return true;
 		}
 		
-		if(request.getSession().getAttribute("usuarioLogado")!=null) {
+		if (request.getSession().getAttribute("usuarioLogado") != null) {
 			return true;
-		} else {
-			response.sendRedirect("loginForm");
-			return false;
-		}
+		} 
+		
+		response.sendRedirect("/contas/usuario/form");
+		return false;
 		
 	}
+	
 }
